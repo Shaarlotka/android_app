@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ImageButton;
@@ -27,7 +27,7 @@ import static android.R.layout.simple_list_item_1;
 public class MainActivity extends AppCompatActivity {
     ImageButton up, down, left, right;
     BluetoothAdapter bluetoothAdapter;
-    FrameLayout screan;
+    GridLayout screen;
     ArrayList<String> deviceHeap;
     ListView listDevice;
     ArrayAdapter<String> deviceAdapter;
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         left = findViewById(R.id.buttonLeft);
         right = findViewById(R.id.buttonRight);
         listDevice = findViewById(R.id.list);
-        screan = findViewById(R.id.scrin);
+        screen = findViewById(R.id.screen);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         deviceAddress = getIntent().getStringExtra("deviceAddress");
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        screan.setVisibility(View.VISIBLE);
+                        screen.setVisibility(View.VISIBLE);
                     }
                 });
                 connectThread = new ConnectedThread(bluetoothSocket);
