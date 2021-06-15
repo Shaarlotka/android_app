@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+import android.view.MotionEvent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
@@ -63,23 +64,70 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_ENABLE_BT);
         }
         createListDevice();
-        /*up.setOnTouchListener(new View.OnTouchListener() {
+
+        up.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    String textCommand = "w";
-                    Log.e("RC Command", textCommand);
-                    connectedThread.write(textCommand);
+                    String command = "u";
+                    connectThread.send(command);
                 } else {
                     if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                        String textCommand = "x";
-                        Log.e("RC Command", textCommand);
-                        connectedThread.write(textCommand);
+                        String command = "m";
+                        connectThread.send(command);
                     }
                 }
                 return true;
             }
-        });*/
+        });
+
+        down.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    String command = "d";
+                    connectThread.send(command);
+                } else {
+                    if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                        String command = "m";
+                        connectThread.send(command);
+                    }
+                }
+                return true;
+            }
+        });
+
+        left.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    String command = "l";
+                    connectThread.send(command);
+                } else {
+                    if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                        String command = "s";
+                        connectThread.send(command);
+                    }
+                }
+                return true;
+            }
+        });
+
+        right.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    String command = "r";
+                    connectThread.send(command);
+                } else {
+                    if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                        String command = "s";
+                        connectThread.send(command);
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -176,16 +224,17 @@ public class MainActivity extends AppCompatActivity {
             while (true) {
                 try {
                     int bytes = inStream.read(buffer);
-                    String strIncom = new String(buffer, 0, bytes);
+                    massege = new String(buffer, 0, bytes);
                 } catch (IOException e) {
                     break;
                 }
             }
         }
 
-        public void send(byte[] buffer) {
+        public void send(String buffer) {
+            byte[] bytes = buffer.getBytes();
             try {
-                outStream.write(buffer);
+                outStream.write(bytes);
             } catch (IOException e) {
                 e.printStackTrace();
             }
